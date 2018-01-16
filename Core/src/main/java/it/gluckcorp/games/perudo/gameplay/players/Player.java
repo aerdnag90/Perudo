@@ -1,100 +1,31 @@
 package it.gluckcorp.games.perudo.gameplay.players;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Player {
-    private List<Integer> dices;
-    private String name = "";
-    private double maxDiceSet;
-    private long id;
-    private boolean hasBeenPalific;
+public interface Player {
+    void addDice();
 
-    public static Player CreatePlayerWithDiceSet(int diceSetMaxSize) {
-        if (diceSetMaxSize < 1)
-            throw new InvalidPlayer();
+    void removeDice();
 
-        return new Player(diceSetMaxSize);
-    }
+    List<Integer> getDices();
 
-    public static Player CreatePlayerWithDiceSet(String name, int dicesPerPlayers) {
-        Player p = CreatePlayerWithDiceSet(dicesPerPlayers);
-        p.name = name;
+    boolean isDiceSetFull();
 
-        return p;
-    }
+    boolean isDiceSetEmpty();
 
-    private Player(int diceSetMaxSize) {
-        dices = new ArrayList<>();
-        maxDiceSet = diceSetMaxSize;
+    boolean hasOneDice();
 
-        final Random random = new Random();
+    long getId();
 
-        while (diceSetMaxSize-- > 0)
-            dices.add(random.nextInt(6) + 1);
+    String getName();
 
-        id = random.nextLong();
-    }
+    void setName(String name);
 
-    public void addDice() {
-        if (dices.size() == maxDiceSet)
-            throw new DicesOverflow();
+    boolean hasBeenPalific();
 
-        dices.add(1);
-    }
+    void setPalificOption();
 
-    public void removeDice() {
-        if (dices.size() == 0)
-            throw new DicesUnderflow();
-
-        dices.remove(0);
-    }
-
-    public int getDiceCount() {
-        return dices.size();
-    }
-
-    public List<Integer> getDices() {
-        return dices;
-    }
-
-    public boolean isDiceSetFull() {
-        return !(dices.size() < maxDiceSet);
-    }
-
-    public boolean isDiceSetEmpty() {
-        return dices.isEmpty();
-    }
-
-    public boolean hasOneDice() {
-        return dices.size() == 1;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean hasBeenPalific() {
-        return hasBeenPalific;
-    }
-
-    public void setPalificOption() {
-        hasBeenPalific = true;
-    }
-
-    public void shuffleDices() {
-        int deckSize = dices.size();
-        dices.clear();
-
-        final Random random = new Random();
-        while (deckSize-- > 0)
-            dices.add(random.nextInt(6) + 1);
-    }
+    void shuffleDices();
 
     public static class DicesOverflow extends RuntimeException {
     }

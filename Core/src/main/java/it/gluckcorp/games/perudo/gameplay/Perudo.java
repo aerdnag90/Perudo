@@ -4,6 +4,7 @@ import it.gluckcorp.games.perudo.gameplay.bets.Bet;
 import it.gluckcorp.games.perudo.gameplay.bets.BetFactory;
 import it.gluckcorp.games.perudo.gameplay.bets.SimpleBet;
 import it.gluckcorp.games.perudo.gameplay.players.Player;
+import it.gluckcorp.games.perudo.gameplay.players.Players;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Perudo {
         List<Player> players = new ArrayList<>();
 
         for (String name : playerNames)
-            players.add(Player.CreatePlayerWithDiceSet(name, dicesPerPlayers));
+            players.add(Players.CreatePlayerWithDiceSet(name, dicesPerPlayers));
 
         return players;
     }

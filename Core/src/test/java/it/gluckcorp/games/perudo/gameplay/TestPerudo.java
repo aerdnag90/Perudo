@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestPerudo {
     private Perudo p;
+    private InterfaceSpy gameInterface;
 
     private void initializeGame(int howManyPlayers, int howManyDices) {
         List<String> players = new ArrayList<>();
@@ -23,6 +25,8 @@ public class TestPerudo {
     @Before
     public void setUp() {
         p = new Perudo();
+        gameInterface = new InterfaceSpy();
+        p.gameInterface = gameInterface;
     }
 
     @Test
@@ -54,12 +58,56 @@ public class TestPerudo {
         p.fitCurrentBet(p.getNextPlayerId());
     }
 
-    @Test(expected = Bet.InvalidBet.class)
+    @Test
     public void whenInvalidBetIsReceived_ThrowsInvalidBet() {
         initializeGame(2, 5);
         p.putNewBet(p.getPlayerById(p.getNextPlayerId()), new int[]{3, 2});
         p.putNewBet(p.getPlayerById(p.getNextPlayerId()), new int[]{2, 5});
+
+        assertTrue(gameInterface.calledPromptInvalidBet);
     }
 
+    private class InterfaceSpy implements Console {
+        boolean calledPromptInvalidBet = false;
 
+        @Override
+        public int[] getFirstBet(String player, List<Integer> dices, boolean palificRound) {
+            return new int[0];
+        }
+
+        @Override
+        public int[] getNextBet(String player, List<Integer> dices) {
+            return new int[0];
+        }
+
+        @Override
+        public void showCurrentBet(Bet currentBet) {
+
+        }
+
+        @Override
+        public void announceGameOver(String winningPlayer) {
+
+        }
+
+        @Override
+        public void announcePlayerOut(String deadPlayer) {
+
+        }
+
+        @Override
+        public void announceRoundOver() {
+
+        }
+
+        @Override
+        public void promptInvalidBet(String player, String cause) {
+            calledPromptInvalidBet = true;
+        }
+
+        @Override
+        public void announceRoundSummary(List<Integer> roundDices, Bet bet, String loosingPlayer) {
+
+        }
+    }
 }

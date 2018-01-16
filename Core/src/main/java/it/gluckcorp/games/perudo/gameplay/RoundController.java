@@ -21,8 +21,7 @@ public class RoundController {
     }
 
     private RoundController(List<Player> players) {
-        this.players = new ArrayList<>();
-        this.players.addAll(players);
+        this.players = new ArrayList<>(players);
         roundOver = false;
     }
 
