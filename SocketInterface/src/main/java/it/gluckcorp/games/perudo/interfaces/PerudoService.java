@@ -93,6 +93,13 @@ public class PerudoService implements SocketService {
                 e.printStackTrace();
             }
         }
+
+        synchronized (this) {
+            users.values().removeIf(s -> s.isClosed() || !s.isConnected());
+        }
+
+        if (users.size() < 2)
+            waitForPlayers();
     }
 
     private void broadcast(String msg, Collection<Socket> sockets) {
