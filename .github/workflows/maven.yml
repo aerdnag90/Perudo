@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build Core module with Maven
-      run: 
-        mvn -B package --file Core/pom.xml
-        mvn -B package --file SocketInterface/pom.xml
+    - name: Build Perudo Core with Maven
+      run: mvn clean install --file Core/pom.xml
+    - name: Build Perudo SocketServer with Maven
+      run: mvn clean install --file SocketInterface/pom.xml
